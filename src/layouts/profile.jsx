@@ -16,6 +16,7 @@ import HI from "../assets/hi-icon.png";
 const ProfileLayout = ({ children }) => {
   const { t, i18n } = useTranslation();
   const [lang, setLang] = useState(i18n.language);
+  const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {
     setLang(i18n.language);
@@ -38,7 +39,15 @@ const ProfileLayout = ({ children }) => {
       <ParticleBackground />
       <ProfileNavbar className={"h-1/8 z-50"} />
       <CustomContainer className="flex text-white h-7/8">
-        <CustomAlert message={t("underDevelopmentAlert")} type={"danger"} />
+        {showAlert && (
+          <CustomAlert
+            message={t("underDevelopmentAlert")}
+            type="danger"
+            closable
+            onClose={() => setShowAlert(false)}
+          />
+        )}
+
         <CustomContainer className="hidden md:block md:w-1/8 overflow-hidden z-10">
           <HomepageLeft />
         </CustomContainer>
