@@ -26,7 +26,7 @@ const NavbarRightComponents = ({ compos = [] }) => {
       <CustomButton
         onClick={() => {
           window.open(
-            "https://drive.google.com/file/d/1ca7Ine6yG0OCrpP3wxuie7vNrBOZeIhM/view?usp=drive_link",
+            "https://drive.google.com/file/d/1dwcliEPe1Itiny-rpuzXqviukN1HmEDt/view?usp=drivesdk",
             "_blank"
           );
         }}
