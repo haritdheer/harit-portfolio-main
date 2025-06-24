@@ -1,0 +1,21 @@
+{
+  "name": "Harit Dheer",
+  "homeBtn1": "Schauen Sie sich mein Profil an!",
+  "homeIntro2": "Hallo! Ich bin ein Full-Stack-Entwickler, KI-Spezialist, Frontend-Entwickler, Softwareingenieur, Backend-Entwickler, Cloud-Architekt, AWS-Praktiker und Forscher mit einer Leidenschaft für innovative Lösungen komplexer Probleme. Ich habe meine Fähigkeiten sowohl im Frontend- als auch im Backend-Bereich verfeinert und mit einer Vielzahl von Technologien in unterschiedlichen Bereichen gearbeitet.",
+  "homeIntro1": "Hallo, mein Name ist",
+  "homeSubIntro1": "Ich bin",
+  "designation": "['Full-Stack-Entwickler','KI-Spezialist','Frontend-Entwickler','Softwareingenieur','Backend-Entwickler','Cloud-Architekt','AWS-Praktiker','Forscher']",
+  "navbarCompo1": "Über mich",
+  "navbarCompo2": "Erfahrung",
+  "navbarCompo3": "Bildung",
+  "navbarCompo4": "Kontakt",
+  "navbarCompo5": "Lebenslauf",
+  "underDevelopmentAlert": "Diese Website wird regelmäßig aktualisiert.",
+  "aboutContent": "<p>Hallo! Ich bin ein leidenschaftlicher <span class='text-cyan-400'>Full-Stack-Entwickler</span>, <span class='text-cyan-400'>KI-Spezialist</span> und <span class='text-cyan-400'>Softwareingenieur</span> mit Erfahrung in Frontend- und Backend-Technologien. Ich entwickle gerne skalierbare Anwendungen, gestalte intuitive Benutzeroberflächen und entwerfe robuste Backend-Systeme.</p><br/><br/><p>Meine Reise umfasst praktische Arbeit als <span class='text-cyan-400'>Frontend-Entwickler</span> und <span class='text-cyan-400'>Backend-Entwickler</span>, wodurch ich reibungslose und effiziente digitale Erlebnisse schaffen kann. Ich bin auch versiert in Cloud-Technologien als <span class='text-cyan-400'>Cloud-Architekt</span> und <span class='text-cyan-400'>AWS-Praktiker</span>, um zuverlässige und skalierbare Anwendungen sicherzustellen.</p><br/><br/><p>Als <span class='text-cyan-400'>Forscher</span> bleibe ich stets über die neuesten Technologietrends informiert, insbesondere im Bereich KI und Cloud-Computing. Mein Ziel ist es, meine vielfältigen Fähigkeiten zu kombinieren, um innovative Lösungen zu schaffen, die reale Probleme lösen und den digitalen Fortschritt vorantreiben.</p>",
+  "contactPageHeading": "Hack, um mich zu erreichen!",
+  "contactPageSubHeading": "Kontakt aufnehmen",
+  "contactPageContent": "Auch wenn ich derzeit offen für neue Möglichkeiten bin, ist mein Posteingang jederzeit offen. Egal, ob du eine Frage hast oder einfach nur Hallo sagen möchtest – ich werde mein Bestes tun, um dir zu antworten!",
+  "contactPageBtn1": "Hallo sagen👋",
+  "educationPageHeading": "Was ich studiert habe",
+  "experiencePageHeading": "Wo ich gearbeitet habe"
+}

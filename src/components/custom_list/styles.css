@@ -1,0 +1,9 @@
+.custom-list {
+    list-style-type: none;
+}
+
+.custom-list li.list-disc-cyan-400::before {
+    content: '\21FE';
+    color: #64FFDA;
+    margin-right: 0.5rem;
+}

@@ -1,0 +1,16 @@
+.navbar-small {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: max-content;
+    height: 100%;
+    background-color: #112240;
+    color: white;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding: 20px;
+}
+
+.navbar-small.visible {
+    transform: translateX(0);
+}

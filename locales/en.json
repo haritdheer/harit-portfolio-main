@@ -1,0 +1,21 @@
+{
+  "name": "Harit Dheer",
+  "homeBtn1": "Check out my profile!",
+"homeIntro2": "Hi there! I'm a Full Stack Developer, AI Specialist, Frontend Developer, Software Engineer, Backend Developer, Cloud Architect, AWS Practitioner, and Researcher with a passion for creating innovative solutions to complex problems. I've honed my skills in both front-end and back-end development, and have worked with a range of technologies across various domains.",
+  "homeIntro1": "Hi, my name is",
+  "homeSubIntro1": "I am",
+  "designation": "['Full Stack Developer','AI Specialist','Frontend Developer','Software Engineer','Backend Developer','Frontend Developer','Cloud Architect','AWS Practitioner','Researcher']",
+  "navbarCompo1": "About me",
+  "navbarCompo2": "Experience",
+  "navbarCompo3": "Education",
+  "navbarCompo4": "Contact",
+  "navbarCompo5": "Resume",
+  "underDevelopmentAlert": "This website is getting updated time to time.",
+"aboutContent": "<p>Hello! I'm a passionate <span class='text-cyan-400'>Full Stack Developer</span>, <span class='text-cyan-400'>AI Specialist</span>, and <span class='text-cyan-400'>Software Engineer</span> with experience across both frontend and backend technologies. I enjoy building scalable applications, designing intuitive user interfaces, and architecting robust backend systems.</p><br/><br/><p>My journey includes hands-on work as a <span class='text-cyan-400'>Frontend Developer</span> and <span class='text-cyan-400'>Backend Developer</span>, allowing me to deliver seamless and efficient digital experiences. I am also skilled in cloud technologies as a <span class='text-cyan-400'>Cloud Architect</span> and <span class='text-cyan-400'>AWS Practitioner</span>, ensuring applications are reliable and scalable.</p><br/><br/><p>As a <span class='text-cyan-400'>Researcher</span>, I stay updated with the latest trends in technology, especially in AI and cloud computing. My goal is to combine my diverse skills to create innovative solutions that solve real-world problems and drive progress in the digital landscape.</p>",
+  "contactPageHeading": "Hack to reach me!",
+  "contactPageSubHeading": "Get In Touch",
+  "contactPageContent": "Although I’m currently looking for any new opportunities, my inbox is always open. Whether you have a question or just want to say hi, I’ll try my best to get back to you!",
+  "contactPageBtn1": "Say Hello👋",
+  "educationPageHeading": "What I've studied",
+  "experiencePageHeading": "Where I've Worked"
+}
