@@ -27,7 +27,7 @@ const Educationpage = () => {
     // },
     {
       id: 0,
-      label: "Bachelors of Engineering (Computer Engg.)",
+      label: "Bachelors of Engineering (Information Technology)",
       at: "GGSIPU, New Delhi",
       atUrl: "https://www.ipu.ac.in",
       duration: "Dec 2020 - June 2024",
