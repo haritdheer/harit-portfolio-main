@@ -1,11 +1,11 @@
 import React from "react";
 import ProfileLayout from "../../layouts/profile";
-import Homepage from "../../components/home_page";
+import SkillsPage from "../../components/skills_page";
 
-const HomePage = () => (
+const Skills = () => (
   <ProfileLayout>
-    <Homepage />
+    <SkillsPage />
   </ProfileLayout>
 );
 
-export default HomePage;
+export default Skills;
