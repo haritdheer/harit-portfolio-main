@@ -11,7 +11,7 @@ const PROJECTS = [
     branch: "main",
     build: "passing",
     stack: ["TypeScript", "React", "Plugin Architecture", "Ctrl+K Palette", "Vercel"],
-    year: "2025",
+    year: "2026",
     githubUrl: "https://github.com/haritdheer/Devops-Hub",
     liveUrl: "https://devops-hub-blitzkrieg.vercel.app",
     highlights: [
