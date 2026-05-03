@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuGithub, LuLinkedin, LuInstagram } from "react-icons/lu";
 import useIsMobile from "../../utils/useIsMobile";
+import { DiscCanvas, useVisitorCount, SignalBars } from "../signal_dish";
 
 /* ─── Typewriter ─────────────────────────────────────────────── */
 const ROLES = [
@@ -365,6 +366,155 @@ const Homepage = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* ── Signal Station ── */}
+      <SignalStation isMobile={isMobile} />
+    </div>
+  );
+};
+
+/* ─── Signal Station panel ───────────────────────────────────────── */
+const SignalStation = ({ isMobile }) => {
+  const { display, status } = useVisitorCount();
+  const [sig, setSig] = useState(4);
+
+  useEffect(() => {
+    const id = setInterval(() => setSig(Math.floor(Math.random() * 2) + 3), 2500);
+    return () => clearInterval(id);
+  }, []);
+
+  const DATA_LEFT = [
+    { label: "SIGNAL_ORIGIN",  value: "Bengaluru, IN" },
+    { label: "OPERATOR",       value: "harit.dheer" },
+    { label: "CHANNEL",        value: "OPEN ✓" },
+    { label: "PROTOCOL",       value: "TLS 1.3" },
+  ];
+
+  const DATA_RIGHT = [
+    {
+      label: "TOTAL_VISITORS",
+      value: display != null ? display.toLocaleString() : "—",
+      highlight: true,
+      badge: status === "live" ? "LIVE" : status === "offline" ? "CACHED" : null,
+    },
+    { label: "SIGNAL_STRENGTH", custom: <SignalBars strength={sig} /> },
+    { label: "UPTIME_STATUS",   value: "NOMINAL" },
+    { label: "RESPONSE_TIME",   value: "< 24h" },
+  ];
+
+  return (
+    <div className="term-window mc-panel-glow">
+      {/* titlebar */}
+      <div className="term-titlebar">
+        <span className="term-dot" style={{ background: "#FF4444" }} />
+        <span className="term-dot" style={{ background: "#F6C90E" }} />
+        <span className="term-dot" style={{ background: "#00FF88" }} />
+        <span style={{ marginLeft: "0.5rem" }}>signal_station.3d</span>
+        <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "0.4rem" }}>
+          <span
+            style={{
+              display: "inline-block", width: 5, height: 5, borderRadius: "50%",
+              background: "#00D4FF", boxShadow: "0 0 6px #00D4FF",
+              animation: "pulseDot 2.5s ease-in-out infinite",
+            }}
+          />
+          <span style={{ fontSize: "0.56rem", color: "#00D4FF", letterSpacing: "0.1em" }}>BROADCASTING</span>
+        </span>
+      </div>
+
+      {/* body: left stats | disc | right stats */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1.4fr 1fr",
+          gap: 0,
+        }}
+      >
+        {/* left stats */}
+        {!isMobile && (
+          <div
+            style={{
+              borderRight: "1px solid rgba(0,212,255,0.08)",
+              padding: "1.25rem 1.5rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              gap: "1rem",
+            }}
+          >
+            <div style={{ fontSize: "0.58rem", color: "#3D5166", letterSpacing: "0.14em", marginBottom: "0.25rem" }}>
+              ── origin_data ──
+            </div>
+            {DATA_LEFT.map(d => (
+              <div key={d.label}>
+                <div style={{ fontSize: "0.5rem", color: "#3D5166", letterSpacing: "0.1em", marginBottom: "0.2rem" }}>{d.label}</div>
+                <div style={{ fontSize: "0.72rem", color: "#C8D8E8" }}>{d.value}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* centre: disc animation */}
+        <div
+          style={{
+            background: "rgba(2,10,22,0.6)",
+            borderRight: isMobile ? "none" : "1px solid rgba(0,212,255,0.08)",
+            padding: isMobile ? "0.75rem" : "0",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <DiscCanvas width={340} height={230} />
+          <div style={{ fontSize: "0.52rem", color: "#3D5166", letterSpacing: "0.18em", paddingBottom: "0.75rem" }}>
+            SIGNAL_DISH · ACTIVE
+          </div>
+        </div>
+
+        {/* right stats */}
+        <div
+          style={{
+            padding: "1.25rem 1.5rem",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: "1rem",
+          }}
+        >
+          <div style={{ fontSize: "0.58rem", color: "#3D5166", letterSpacing: "0.14em", marginBottom: "0.25rem" }}>
+            ── telemetry ──
+          </div>
+          {DATA_RIGHT.map(d => (
+            <div key={d.label}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", marginBottom: "0.2rem" }}>
+                <span style={{ fontSize: "0.5rem", color: "#3D5166", letterSpacing: "0.1em" }}>{d.label}</span>
+                {d.badge && (
+                  <span style={{
+                    fontSize: "0.42rem", letterSpacing: "0.1em",
+                    color: d.badge === "LIVE" ? "#00D4FF" : "#3D5166",
+                    border: `1px solid ${d.badge === "LIVE" ? "rgba(0,212,255,0.35)" : "rgba(61,81,102,0.4)"}`,
+                    borderRadius: 2, padding: "0.04rem 0.28rem",
+                  }}>{d.badge}</span>
+                )}
+              </div>
+              {d.custom ? d.custom : (
+                <div
+                  style={{
+                    fontSize: d.highlight ? "1.35rem" : "0.72rem",
+                    fontWeight: d.highlight ? 700 : 400,
+                    color: "#00D4FF",
+                    textShadow: d.highlight ? "0 0 18px rgba(0,212,255,0.45)" : "none",
+                    lineHeight: 1,
+                  }}
+                >
+                  {d.value}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
