@@ -108,7 +108,7 @@ const ProfileNavbar = () => {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1, lineHeight: 1 }}>
               <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#E2E8F0", letterSpacing: "0.14em" }}>
-                HARIT_CORE.V5
+                HARIT_CORE.V2
               </span>
               <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
                 <span
