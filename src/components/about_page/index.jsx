@@ -151,7 +151,7 @@ const Aboutpage = () => {
           flexDirection: "column",
           gridTemplateColumns: "minmax(0,1.1fr) minmax(0,0.9fr)",
           gap: isMobile ? "1.5rem" : "2rem",
-          alignItems: "start",
+          alignItems: isMobile ? "stretch" : "start",
         }}
       >
         <AboutPageLeft />

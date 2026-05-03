@@ -160,13 +160,29 @@ const StatusBadge = ({ status }) => {
 
 const ProjectCard = ({ project, featured }) => {
   const [logOpen, setLogOpen] = useState(false);
+  const [tilt, setTilt]       = useState(null);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const dx = (e.clientX - rect.left  - rect.width  / 2) / (rect.width  / 2);
+    const dy = (e.clientY - rect.top   - rect.height / 2) / (rect.height / 2);
+    setTilt({ x: dy * -5, y: dx * 5 });
+  };
+
+  const handleMouseLeave = () => setTilt(null);
 
   return (
     <div
       className="project-card"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         display: "flex",
         flexDirection: "column",
+        ...(tilt && {
+          transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-4px)`,
+          transition: "transform 0.08s ease-out, border-color 0.3s, box-shadow 0.3s",
+        }),
         ...(featured && {
           border: "1px solid rgba(0,212,255,0.35)",
           boxShadow: "0 0 40px rgba(0,212,255,0.06)",

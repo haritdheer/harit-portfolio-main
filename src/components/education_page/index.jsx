@@ -73,7 +73,7 @@ const Educationpage = () => {
           flexDirection: "column",
           gridTemplateColumns: "minmax(0,1fr) minmax(0,1.4fr)",
           gap: isMobile ? "1rem" : "1.5rem",
-          alignItems: "start",
+          alignItems: isMobile ? "stretch" : "start",
         }}
       >
         {/* list */}
