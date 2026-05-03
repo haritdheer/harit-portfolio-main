@@ -262,7 +262,7 @@ const SpaceCanvas = () => {
 };
 
 /* ─── Speedometer / diagnostics panel canvas ─────────────────────── */
-const SpeedometerCanvas = ({ progress }) => {
+const SpeedometerCanvas = ({ progress, compact = false }) => {
   const canvasRef = useRef(null);
   const progRef   = useRef(progress);
 
@@ -273,9 +273,17 @@ const SpeedometerCanvas = ({ progress }) => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
-    const W = 340, H = 480;
+    /* Responsive logical size */
+    const W = compact ? 320 : 340;
+    const H = compact ? 290 : 480;
     canvas.width  = W;
     canvas.height = H;
+
+    /* Layout constants — all relative to W/H so compact mode scales cleanly */
+    const mainR  = compact ? 78  : 100;
+    const mainCY = compact ? Math.round(H * 0.40) : 160;
+    const subR   = compact ? 26  : 36;
+    const subY   = compact ? Math.round(H * 0.84) : 320;
 
     const FONT = "'JetBrains Mono', 'Share Tech Mono', monospace";
 
@@ -288,42 +296,38 @@ const SpeedometerCanvas = ({ progress }) => {
 
     /* Draw the big arc speedometer */
     const drawMain = (cx, cy, r, val, tick) => {
-      const SA = Math.PI * 0.75;   // 135°  — bottom-left
-      const SW = Math.PI * 1.5;    // 270° sweep
+      const SA = Math.PI * 0.75;
+      const SW = Math.PI * 1.5;
 
-      /* Outer decorative ring */
       ctx.beginPath();
-      ctx.arc(cx, cy, r + 14, SA, SA + SW);
+      ctx.arc(cx, cy, r + (compact ? 10 : 14), SA, SA + SW);
       ctx.strokeStyle = "rgba(0,212,255,0.06)";
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      /* Track */
       ctx.beginPath();
       ctx.arc(cx, cy, r, SA, SA + SW);
       ctx.strokeStyle = "rgba(0,212,255,0.10)";
-      ctx.lineWidth = 12;
+      ctx.lineWidth = compact ? 9 : 12;
       ctx.lineCap = "round";
       ctx.stroke();
 
-      /* Progress arc */
       if (val > 0.002) {
         ctx.beginPath();
         ctx.arc(cx, cy, r, SA, SA + SW * val);
         ctx.strokeStyle = val < 0.5 ? "#0099BB" : "#00D4FF";
-        ctx.lineWidth = 12;
+        ctx.lineWidth = compact ? 9 : 12;
         ctx.lineCap = "round";
         ctx.shadowColor = "#00D4FF";
-        ctx.shadowBlur = 18;
+        ctx.shadowBlur = compact ? 12 : 18;
         ctx.stroke();
         ctx.shadowBlur = 0;
       }
 
-      /* Tick marks */
       for (let i = 0; i <= 20; i++) {
         const a       = SA + (i / 20) * SW;
         const isMajor = i % 5 === 0;
-        const inner   = r - (isMajor ? 22 : 12);
+        const inner   = r - (isMajor ? (compact ? 16 : 22) : (compact ? 9 : 12));
         const outer   = r + 4;
         const lit     = val >= (i / 20) - 0.01;
 
@@ -337,8 +341,7 @@ const SpeedometerCanvas = ({ progress }) => {
         ctx.lineCap   = "square";
         ctx.stroke();
 
-        /* Major tick labels */
-        if (isMajor) {
+        if (isMajor && !compact) {
           const labelR = r - 34;
           const pct    = Math.round((i / 20) * 100);
           ctx.fillStyle = lit ? "rgba(0,212,255,0.7)" : "rgba(0,212,255,0.2)";
@@ -349,85 +352,76 @@ const SpeedometerCanvas = ({ progress }) => {
         }
       }
 
-      /* Needle */
       const na = SA + SW * val;
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(na);
-      /* needle shaft */
       ctx.beginPath();
-      ctx.moveTo(-10, 0);
-      ctx.lineTo(r - 20, 0);
+      ctx.moveTo(-8, 0);
+      ctx.lineTo(r - (compact ? 14 : 20), 0);
       ctx.strokeStyle = "#00D4FF";
       ctx.lineWidth   = 2.5;
       ctx.lineCap     = "round";
       ctx.shadowColor = "#00D4FF";
       ctx.shadowBlur  = 12;
       ctx.stroke();
-      /* needle tip triangle */
       ctx.beginPath();
-      ctx.moveTo(r - 20, 0);
-      ctx.lineTo(r - 8, -3);
-      ctx.lineTo(r - 8, 3);
+      ctx.moveTo(r - (compact ? 14 : 20), 0);
+      ctx.lineTo(r - (compact ? 4 : 8), -3);
+      ctx.lineTo(r - (compact ? 4 : 8),  3);
       ctx.closePath();
       ctx.fillStyle = "#00D4FF";
       ctx.fill();
       ctx.shadowBlur = 0;
       ctx.restore();
 
-      /* Hub ring */
+      const hubR = compact ? 10 : 13;
       ctx.beginPath();
-      ctx.arc(cx, cy, 13, 0, Math.PI * 2);
+      ctx.arc(cx, cy, hubR, 0, Math.PI * 2);
       ctx.strokeStyle = "rgba(0,212,255,0.3)";
       ctx.lineWidth = 1;
       ctx.stroke();
-      /* Hub glow */
-      const hubG = ctx.createRadialGradient(cx, cy, 0, cx, cy, 13);
+      const hubG = ctx.createRadialGradient(cx, cy, 0, cx, cy, hubR);
       hubG.addColorStop(0,   "rgba(0,212,255,0.9)");
       hubG.addColorStop(0.5, "rgba(0,212,255,0.5)");
       hubG.addColorStop(1,   "rgba(0,212,255,0)");
       ctx.beginPath();
-      ctx.arc(cx, cy, 13, 0, Math.PI * 2);
+      ctx.arc(cx, cy, hubR, 0, Math.PI * 2);
       ctx.fillStyle = hubG;
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+      ctx.arc(cx, cy, compact ? 3.5 : 5, 0, Math.PI * 2);
       ctx.fillStyle = "#e0f8ff";
       ctx.fill();
 
-      /* Center number */
-      const pctStr = `${Math.round(val * 100)}%`;
       ctx.fillStyle = "#00D4FF";
-      ctx.font      = `bold ${Math.round(r * 0.28)}px ${FONT}`;
+      ctx.font      = `bold ${Math.round(r * (compact ? 0.24 : 0.28))}px ${FONT}`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.shadowColor  = "rgba(0,212,255,0.6)";
       ctx.shadowBlur   = 10;
-      ctx.fillText(pctStr, cx, cy + r * 0.32);
+      ctx.fillText(`${Math.round(val * 100)}%`, cx, cy + r * 0.32);
       ctx.shadowBlur = 0;
 
       ctx.fillStyle = "rgba(0,212,255,0.45)";
-      ctx.font      = `9px ${FONT}`;
+      ctx.font      = `${compact ? 7 : 9}px ${FONT}`;
       ctx.fillText("BOOT_PROGRESS", cx, cy + r * 0.5);
     };
 
-    /* Draw a small circular sub-gauge */
     const drawSubGauge = (cx, cy, r, item, tick) => {
       const pulse = 0.5 + 0.5 * Math.sin(tick * 2.5 + cx * 0.05);
 
-      /* Track */
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.strokeStyle = "rgba(0,212,255,0.08)";
-      ctx.lineWidth = 5;
+      ctx.lineWidth = compact ? 4 : 5;
       ctx.stroke();
 
-      /* Fill */
       if (item.v > 0.002) {
         ctx.beginPath();
         ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * item.v);
         ctx.strokeStyle = `rgba(0,212,255,${0.65 + pulse * 0.35})`;
-        ctx.lineWidth = 5;
+        ctx.lineWidth = compact ? 4 : 5;
         ctx.lineCap   = "round";
         ctx.shadowColor = "#00D4FF";
         ctx.shadowBlur  = 8;
@@ -435,37 +429,15 @@ const SpeedometerCanvas = ({ progress }) => {
         ctx.shadowBlur = 0;
       }
 
-      /* Percentage */
       ctx.fillStyle = "#00D4FF";
-      ctx.font      = `bold ${Math.round(r * 0.42)}px ${FONT}`;
+      ctx.font      = `bold ${Math.round(r * (compact ? 0.38 : 0.42))}px ${FONT}`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(`${Math.round(item.v * 100)}`, cx, cy - r * 0.08);
 
       ctx.fillStyle = "rgba(0,212,255,0.45)";
-      ctx.font      = `${Math.round(r * 0.24)}px ${FONT}`;
+      ctx.font      = `${Math.round(r * (compact ? 0.22 : 0.24))}px ${FONT}`;
       ctx.fillText(item.label, cx, cy + r * 0.55);
-    };
-
-    /* Draw horizontal bar for misc metrics */
-    const drawBar = (x, y, w, h, val, label, valText) => {
-      ctx.fillStyle = "rgba(0,212,255,0.06)";
-      ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = "rgba(0,212,255,0.0)";
-      const barGrad = ctx.createLinearGradient(x, 0, x + w, 0);
-      barGrad.addColorStop(0,   "rgba(0,100,180,0.7)");
-      barGrad.addColorStop(1,   "rgba(0,212,255,0.9)");
-      ctx.fillStyle = barGrad;
-      ctx.fillRect(x, y, w * val, h);
-
-      ctx.fillStyle = "rgba(0,212,255,0.5)";
-      ctx.font      = `8px ${FONT}`;
-      ctx.textAlign = "left";
-      ctx.textBaseline = "middle";
-      ctx.fillText(label, x, y - 6);
-
-      ctx.textAlign = "right";
-      ctx.fillText(valText, x + w, y - 6);
     };
 
     let raf;
@@ -473,7 +445,6 @@ const SpeedometerCanvas = ({ progress }) => {
       const t = now / 1000;
       const p = progRef.current;
 
-      /* Ease toward target */
       smooth += (p - smooth) * 0.055;
       sub.forEach(s => {
         const tgt = p > 0.15 ? s.target * Math.min(1, (p - 0.1) / 0.75) : 0;
@@ -482,63 +453,50 @@ const SpeedometerCanvas = ({ progress }) => {
 
       ctx.clearRect(0, 0, W, H);
 
-      /* Section title */
       ctx.fillStyle = "rgba(0,212,255,0.55)";
-      ctx.font      = `9px ${FONT}`;
+      ctx.font      = `${compact ? 8 : 9}px ${FONT}`;
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
-      ctx.letterSpacing = "0.12em";
-      ctx.fillText("SYS_DIAGNOSTICS", W / 2, 14);
+      ctx.fillText("SYS_DIAGNOSTICS", W / 2, compact ? 10 : 14);
 
       ctx.beginPath();
-      ctx.moveTo(W * 0.12, 30);
-      ctx.lineTo(W * 0.88, 30);
+      ctx.moveTo(W * 0.12, compact ? 24 : 30);
+      ctx.lineTo(W * 0.88, compact ? 24 : 30);
       ctx.strokeStyle = "rgba(0,212,255,0.15)";
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      /* Main gauge */
-      drawMain(W / 2, 160, 100, smooth, t);
+      drawMain(W / 2, mainCY, mainR, smooth, t);
 
-      /* Sub-gauge row */
       const subPositions = [W * 0.17, W / 2, W * 0.83];
-      const subY = 320;
-      const subR = 36;
       sub.forEach((s, i) => drawSubGauge(subPositions[i], subY, subR, s, t));
 
-      /* Divider */
       ctx.beginPath();
-      ctx.moveTo(W * 0.12, subY + subR + 18);
-      ctx.lineTo(W * 0.88, subY + subR + 18);
+      ctx.moveTo(W * 0.12, subY + subR + (compact ? 12 : 18));
+      ctx.lineTo(W * 0.88, subY + subR + (compact ? 12 : 18));
       ctx.strokeStyle = "rgba(0,212,255,0.08)";
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      /* Status row */
-      const statusY   = subY + subR + 32;
-      const statusTxt = smooth > 0.98
-        ? "● ALL SYSTEMS NOMINAL"
-        : smooth > 0.5
-          ? "◌ BOOT SEQUENCE RUNNING"
-          : "◌ INITIALISING...";
-      const statusCol = smooth > 0.98 ? "#00FF88" : "rgba(0,212,255,0.6)";
-      ctx.fillStyle = statusCol;
-      ctx.font      = `8px ${FONT}`;
+      const statusY   = subY + subR + (compact ? 20 : 32);
+      const statusTxt = smooth > 0.98 ? "● ALL SYSTEMS NOMINAL"
+        : smooth > 0.5             ? "◌ BOOT SEQUENCE RUNNING"
+        : "◌ INITIALISING...";
+      ctx.fillStyle = smooth > 0.98 ? "#00FF88" : "rgba(0,212,255,0.6)";
+      ctx.font      = `${compact ? 7 : 8}px ${FONT}`;
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
       ctx.fillText(statusTxt, W / 2, statusY);
 
-      /* Pulse ring around main hub — grows outward */
-      const pulseR = 14 + (1 - (t % 1)) * 22;
+      const pulseR = (compact ? 11 : 14) + (1 - (t % 1)) * (compact ? 16 : 22);
       const pulseA = Math.max(0, 0.4 * (1 - (t % 1)));
       ctx.beginPath();
-      ctx.arc(W / 2, 160, pulseR, 0, Math.PI * 2);
+      ctx.arc(W / 2, mainCY, pulseR, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(0,212,255,${pulseA})`;
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      /* HUD corner brackets */
-      const bs = 14, bp = 10;
+      const bs = compact ? 10 : 14, bp = compact ? 7 : 10;
       ctx.strokeStyle = "rgba(0,212,255,0.28)";
       ctx.lineWidth = 1.5;
       [[bp, bp], [W - bp, bp], [bp, H - bp], [W - bp, H - bp]].forEach(([bx, by]) => {
@@ -556,12 +514,12 @@ const SpeedometerCanvas = ({ progress }) => {
 
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [compact]);
 
   return (
     <canvas
       ref={canvasRef}
-      style={{ width: "100%", maxWidth: 340, height: "auto", display: "block" }}
+      style={{ display: "block", width: "100%", maxWidth: compact ? 320 : 340, height: "auto" }}
     />
   );
 };
@@ -603,6 +561,7 @@ const BootSequence = ({ onComplete }) => {
         padding: 0,
         overflow: "hidden",
         alignItems: "stretch",
+        flexDirection: isMobile ? "column" : "row",
       }}
     >
       {/* 3D Earth + sun background */}
@@ -617,19 +576,19 @@ const BootSequence = ({ onComplete }) => {
         }}
       />
 
-      {/* LEFT — terminal text */}
+      {/* TOP / LEFT — terminal text */}
       <div
         style={{
           position: "relative", zIndex: 2,
-          flex: isMobile ? "1" : "0 0 58%",
+          flex: isMobile ? "0 0 auto" : "0 0 58%",
           maxWidth: isMobile ? "100%" : 720,
-          padding: isMobile ? "1.5rem 1.25rem" : "3rem 4rem",
+          padding: isMobile ? "1.25rem 1.25rem 0.75rem" : "3rem 4rem",
           display: "flex", flexDirection: "column",
         }}
       >
         <div
           className="boot-logo"
-          style={{ fontSize: isMobile ? "0.95rem" : "1.3rem" }}
+          style={{ fontSize: isMobile ? "0.9rem" : "1.3rem" }}
         >
           ▶ MISSION_CTRL.exe
         </div>
@@ -654,7 +613,7 @@ const BootSequence = ({ onComplete }) => {
                   line.type === "header" ? "#00D4FF"
                   : line.type === "launch" ? "#C8D8E8"
                   : "#8892B0",
-                fontSize: isMobile ? "0.65rem" : "0.72rem",
+                fontSize: isMobile ? "0.6rem" : "0.72rem",
               }}
             >
               {line.text}
@@ -663,27 +622,27 @@ const BootSequence = ({ onComplete }) => {
         ))}
 
         {visible.length === LINES.length && (
-          <div className="boot-line" style={{ marginTop: "0.5rem" }}>
+          <div className="boot-line" style={{ marginTop: "0.4rem" }}>
             <span className="cursor-blink" />
           </div>
         )}
       </div>
 
-      {/* RIGHT — speedometer diagnostics panel */}
-      {!isMobile && (
-        <div
-          style={{
-            position: "relative", zIndex: 2,
-            flex: 1,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            borderLeft: "1px solid rgba(0,212,255,0.08)",
-            background: "rgba(2,8,20,0.25)",
-            padding: "1rem",
-          }}
-        >
-          <SpeedometerCanvas progress={progress} />
-        </div>
-      )}
+      {/* BOTTOM / RIGHT — speedometer diagnostics panel */}
+      <div
+        style={{
+          position: "relative", zIndex: 2,
+          flex: 1,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          borderLeft: isMobile ? "none" : "1px solid rgba(0,212,255,0.08)",
+          borderTop: isMobile ? "1px solid rgba(0,212,255,0.08)" : "none",
+          background: "rgba(2,8,20,0.25)",
+          padding: isMobile ? "0.5rem 1rem 1rem" : "1rem",
+          minHeight: isMobile ? 0 : "auto",
+        }}
+      >
+        <SpeedometerCanvas progress={progress} compact={isMobile} />
+      </div>
     </div>
   );
 };

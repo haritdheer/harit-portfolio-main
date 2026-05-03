@@ -217,7 +217,7 @@ const ProfileLayout = ({ children }) => {
         {children}
       </main>
 
-      <SiteFooter />
+      <SiteFooter onOpenTerminal={isMobile ? () => setTermOpen(true) : undefined} />
 
       {!isMobile && <TerminalFAB onClick={() => setTermOpen(true)} />}
 

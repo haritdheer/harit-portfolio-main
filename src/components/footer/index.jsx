@@ -83,7 +83,7 @@ const VSep = () => (
   <div style={{ width: 1, height: 18, background: "rgba(0,212,255,0.12)", flexShrink: 0 }} />
 );
 
-const SiteFooter = () => {
+const SiteFooter = ({ onOpenTerminal }) => {
   const isMobile = useIsMobile();
 
   return (
@@ -185,6 +185,30 @@ const SiteFooter = () => {
             <>
               <VSep />
               <span style={{ fontSize: "0.6rem", color: "#8892B0", whiteSpace: "nowrap" }}><UtcClock /></span>
+            </>
+          )}
+
+          {isMobile && onOpenTerminal && (
+            <>
+              <VSep />
+              <button
+                onClick={onOpenTerminal}
+                title="Open Terminal"
+                style={{
+                  background: "rgba(0,212,255,0.07)",
+                  border: "1px solid rgba(0,212,255,0.28)",
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  color: "#00D4FF",
+                  fontSize: "0.62rem",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  padding: "0.15rem 0.4rem",
+                  lineHeight: 1,
+                  letterSpacing: "0.04em",
+                }}
+              >
+                &gt;_
+              </button>
             </>
           )}
         </div>
