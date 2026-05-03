@@ -184,7 +184,9 @@ export const useVisitorCount = () => {
       })
       .catch(() => {
         setStatus("offline");
-        animateTo(11, setDisplay);
+        const cached = parseInt(localStorage.getItem("hd_vc_real") || "0", 10);
+        if (!cached) animateTo(11, setDisplay);
+        // if a real count is already cached, keep showing it instead of overwriting with 11
       });
   }, []);
 
