@@ -26,7 +26,7 @@ const NavbarRightComponents = ({ compos = [] }) => {
       <CustomButton
         onClick={() => {
           window.open(
-            "https://drive.google.com/file/d/1V2qZCDpNIUdcSItXZza-uInG2ny-ZnZ3/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1e7DAS7M5IYhzwzSLsddToNEqtOTSByL1/view?usp=drivesdk",
             "_blank"
           );
         }}
@@ -81,7 +81,7 @@ const NavbarRight = () => {
             <CustomButton
               onClick={() => {
                 window.open(
-                  "https://drive.google.com/file/d/1V2qZCDpNIUdcSItXZza-uInG2ny-ZnZ3/view?usp=drive_link",
+                  "https://drive.google.com/file/d/1e7DAS7M5IYhzwzSLsddToNEqtOTSByL1/view?usp=drive_link",
                   "_blank"
                 );
               }}

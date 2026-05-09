@@ -195,7 +195,7 @@ const ProfileNavbar = () => {
 
                 {!isTablet && (
                   <a
-                    href="https://drive.google.com/file/d/1V2qZCDpNIUdcSItXZza-uInG2ny-ZnZ3/view?usp=drivesdk"
+                    href="https://drive.google.com/file/d/1e7DAS7M5IYhzwzSLsddToNEqtOTSByL1/view?usp=drivesdk"
                     target="_blank"
                     rel="noreferrer"
                     style={{
@@ -307,7 +307,7 @@ const ProfileNavbar = () => {
           </div>
 
           <a
-            href="https://drive.google.com/file/d/1V2qZCDpNIUdcSItXZza-uInG2ny-ZnZ3/view?usp=drivesdk"
+            href="https://drive.google.com/file/d/1e7DAS7M5IYhzwzSLsddToNEqtOTSByL1/view?usp=drivesdk"
             target="_blank"
             rel="noreferrer"
             className="mc-btn"

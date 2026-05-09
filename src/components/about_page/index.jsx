@@ -4,7 +4,7 @@ import AboutPageLeft from "./about_page_left";
 import useIsMobile from "../../utils/useIsMobile";
 import { LuExternalLink, LuDownload, LuMaximize2, LuMinimize2 } from "react-icons/lu";
 
-const CV_FILE_ID = "1V2qZCDpNIUdcSItXZza-uInG2ny-ZnZ3";
+const CV_FILE_ID = "1e7DAS7M5IYhzwzSLsddToNEqtOTSByL1";
 const CV_PREVIEW  = `https://drive.google.com/file/d/${CV_FILE_ID}/preview`;
 const CV_DOWNLOAD = `https://drive.google.com/uc?export=download&id=${CV_FILE_ID}`;
 const CV_VIEW     = `https://drive.google.com/file/d/${CV_FILE_ID}/view?usp=sharing`;
