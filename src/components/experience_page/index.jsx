@@ -13,7 +13,7 @@ const MISSIONS = [
     status: "ACTIVE",
     stack: ["React.js", "JavaScript", "REST APIs", "State Management"],
     log: [
-      { type: "ok",   text: "Led frontend for Medanta Healthcare CRM & Patient Web App" },
+      { type: "ok",   text: "Led full-stack development for Medanta Healthcare CRM & Patient Web App" },
       { type: "ok",   text: "Built reusable UI components — reduced code duplication" },
       { type: "ok",   text: "Integrated REST APIs + dynamic state management" },
       { type: "ok",   text: "Optimised performance: minimised re-renders & API overhead" },

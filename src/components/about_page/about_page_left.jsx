@@ -3,7 +3,7 @@ import React from "react";
 const AboutPageLeft = () => {
   const techStack = [
     "React.js", "Next.js", "Node.js", "ExpressJS", "JavaScript",
-    "TypeScript", "Java", "C/C++", "GraphQL", "EJS",
+    "TypeScript", "Java", "Spring Boot", "C/C++", "GraphQL", "EJS",
     "PostgreSQL", "MySQL", "MS-SQL", "Docker", "Kubernetes",
     "OpenShift", "Azure", "Git", "Swagger", "Postman",
   ];
@@ -32,7 +32,7 @@ const AboutPageLeft = () => {
             full-stack development, delivering well-documented, tested, and operable code.
           </p>
           <p style={{ fontSize: "0.82rem", lineHeight: 1.85, color: "#8892B0", margin: 0 }}>
-            Currently leading frontend development for{" "}
+            Currently leading full-stack development for{" "}
             <span style={{ color: "#00D4FF" }}>Medanta Healthcare</span> applications at{" "}
             <span style={{ color: "#00D4FF" }}>THB / Sekhmet Technologies</span>.
             Previously built{" "}

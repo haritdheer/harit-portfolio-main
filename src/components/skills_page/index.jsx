@@ -21,6 +21,7 @@ const SKILL_CATEGORIES = [
       { name: "Next.js",     pct: 80 },
       { name: "Node.js",     pct: 88 },
       { name: "ExpressJS",   pct: 87 },
+      { name: "Spring Boot", pct: 75 },
       { name: "GraphQL",     pct: 68 },
       { name: "Bootstrap",   pct: 85 },
     ],

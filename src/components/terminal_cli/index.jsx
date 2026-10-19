@@ -70,7 +70,7 @@ function buildCommands(navigate, close) {
     ],
     "cat skills": () => [
       { t: "ok",   v: "  LANGUAGES    TypeScript · JavaScript · Python · Java" },
-      { t: "ok",   v: "  FRAMEWORKS   React · Node.js · Express · EJS" },
+      { t: "ok",   v: "  FRAMEWORKS   React · Node.js · Express · Spring Boot · EJS" },
       { t: "ok",   v: "  DATABASES    PostgreSQL · MySQL · MongoDB · Redis" },
       { t: "ok",   v: "  DEVOPS       AWS · Docker · Linux · CI/CD · Git" },
       { t: "dim",  v: " " },
