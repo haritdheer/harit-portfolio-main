@@ -1,7 +1,37 @@
 import React, { useState } from "react";
 import PageHeader from "../page_header";
+import useIsMobile from "../../utils/useIsMobile";
 
 const PROJECTS = [
+  {
+    id: "voicequery",
+    name: "VoiceQuery",
+    description:
+      "Ask questions about a CSV in plain English or by voice, then inspect how the answer was produced. Upload a dataset, ask your question, and explore charts, result tables, generated SQL and per-stage timings in one interface — with an AST-based SQL guard and a locked-down DuckDB sandbox underneath.",
+    status: "DEPLOYED",
+    branch: "main",
+    build: "passing",
+    stack: ["TypeScript", "Fastify", "PostgreSQL", "DuckDB", "React", "Vite", "Recharts", "Web Speech API", "Docker"],
+    year: "2026",
+    githubUrl: "https://github.com/haritdheer/VoiceQuery",
+    liveUrl: "https://voicequeryapi-production-dfd1.up.railway.app/",
+    highlights: [
+      "Plain-language answers · interactive charts & result tables",
+      "Generated SQL in an expandable panel · measured stage timings",
+      "Follow-up questions retain conversation context · bring your own AI key",
+      "Model SQL parsed to an AST and checked against an allowlist — unknown structures rejected",
+      "DuckDB sandbox: read-only datasets, external access & extension auto-load disabled, config frozen",
+      "Transactional credits — reserved before model calls, refunded on failure",
+      "10 concurrent requests on 2 credits → exactly 2 successes",
+    ],
+    log: [
+      { type: "ok",   text: "300 tests passing — 197 backend, 103 frontend" },
+      { type: "ok",   text: "SQL guard: 67 tests — UNION allowlist bypass fixed" },
+      { type: "ok",   text: "DuckDB hardened — read-only, no external access" },
+      { type: "ok",   text: "credit accounting: DB constraints enforced" },
+      { type: "ok",   text: "single Docker image → Railway: LIVE ✓" },
+    ],
+  },
   {
     id: "devops-hub",
     name: "DevOps Utility Hub",
@@ -333,23 +363,40 @@ const ProjectCard = ({ project, featured }) => {
   );
 };
 
-const ProjectsPage = () => (
-  <PageHeader heading="Deployed Repositories" headingId="04">
-    <div style={{ marginBottom: "1rem", fontSize: "0.72rem", color: "#3D5166" }}>
-      <span style={{ color: "#00D4FF" }}>$</span> ls -la ~/projects/ --sort=date
-    </div>
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(min(340px, 100%), 1fr))",
-        gap: "1rem",
-      }}
-    >
-      {PROJECTS.map((p, i) => (
-        <ProjectCard key={p.id} project={p} featured={i === 0} />
-      ))}
-    </div>
-  </PageHeader>
-);
+const ProjectsPage = () => {
+  const isMobile = useIsMobile();
+
+  return (
+    <PageHeader heading="Deployed Repositories" headingId="04">
+      <div style={{ marginBottom: "1rem", fontSize: "0.72rem", color: "#3D5166" }}>
+        <span style={{ color: "#00D4FF" }}>$</span> ls -la ~/projects/ --sort=date
+        {!isMobile && <span style={{ marginLeft: "1rem" }}>← scroll →</span>}
+      </div>
+      <div
+        className={isMobile ? undefined : "projects-scroll"}
+        style={
+          isMobile
+            ? {
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(min(340px, 100%), 1fr))",
+                gap: "1rem",
+              }
+            : {
+                display: "grid",
+                gridAutoFlow: "column",
+                gridAutoColumns: "380px",
+                gap: "1rem",
+                overflowX: "auto",
+                padding: "6px 2px 1rem",
+              }
+        }
+      >
+        {PROJECTS.map((p, i) => (
+          <ProjectCard key={p.id} project={p} featured={i === 0} />
+        ))}
+      </div>
+    </PageHeader>
+  );
+};
 
 export default ProjectsPage;

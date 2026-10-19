@@ -260,6 +260,15 @@ p { color: #8892B0; }
   transform: translateY(-3px);
 }
 
+/* ─── Projects horizontal scroller (desktop) ─── */
+.projects-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mc-blue) rgba(0, 212, 255, 0.08);
+}
+.projects-scroll::-webkit-scrollbar       { height: 8px; }
+.projects-scroll::-webkit-scrollbar-track { background: rgba(0, 212, 255, 0.08); border-radius: 4px; }
+.projects-scroll::-webkit-scrollbar-thumb { background: var(--mc-blue); border-radius: 4px; }
+
 /* ─── Log line colors ─── */
 .log-ok   { color: #00FF88; }
 .log-info { color: #8892B0; }
