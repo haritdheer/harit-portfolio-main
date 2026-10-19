@@ -343,7 +343,7 @@ const Homepage = () => {
         }}
       >
         {[
-          { label: "EXPERIENCE", value: "1+ yrs" },
+          { label: "EXPERIENCE", value: "2+ yrs" },
           { label: "COMPANIES",  value: "3" },
           { label: "TECH_STACK", value: "MERN+TS" },
           { label: "LOCATION",   value: "Bengaluru" },
