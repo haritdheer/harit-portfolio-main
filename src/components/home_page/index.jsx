@@ -345,7 +345,7 @@ const Homepage = () => {
         {[
           { label: "EXPERIENCE", value: "2+ yrs" },
           { label: "COMPANIES",  value: "3" },
-          { label: "TECH_STACK", value: "MERN+TS" },
+          { label: "TECH_STACK", value: "MERN+TS, Java+Spring Boot" },
           { label: "LOCATION",   value: "Bengaluru" },
         ].map(stat => (
           <div
