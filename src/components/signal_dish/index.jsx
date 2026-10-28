@@ -144,10 +144,10 @@ export const DiscCanvas = ({ width = 300, height = 210 }) => {
   );
 };
 
-/* ─── Real visitor counter (CounterAPI — free, no auth, CORS-open) ── */
-const NS  = "haritdheer";
-const KEY = "portfolio-visits";
-const BASE_URL = `https://api.counterapi.dev/v1/${NS}/${KEY}`;
+/* ─── Real visitor counter (CounterAPI v2 — public counter, CORS-open) ── */
+const WORKSPACE = "haritdheer";
+const KEY       = "harit-portfolio-visits";
+const BASE_URL  = `https://api.counterapi.dev/v2/${WORKSPACE}/${KEY}`;
 
 const animateTo = (target, setter) => {
   const cached = parseInt(localStorage.getItem("hd_vc_real") || "0", 10);
@@ -175,8 +175,11 @@ export const useVisitorCount = () => {
     fetch(endpoint)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(data => {
-        const count = data?.count ?? data?.value;
-        if (!count) throw new Error("no count");
+        const raw = data?.data?.up_count;
+        if (typeof raw !== "number") throw new Error("no count");
+        // v2 buffers increments, so /up returns the pre-increment value — count this visit ourselves
+        const cached = parseInt(localStorage.getItem("hd_vc_real") || "0", 10);
+        const count  = Math.max(isNewSession ? raw + 1 : raw, cached);
         if (isNewSession) sessionStorage.setItem("hd_vs", "1");
         localStorage.setItem("hd_vc_real", String(count));
         setStatus("live");
