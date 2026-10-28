@@ -91,6 +91,33 @@ const VisitorPanel = () => {
   );
 };
 
+/* Defined at module level so inputs keep focus across re-renders */
+const Field = ({ id, label, value, onChange, disabled, error, type = "text", multiline }) => (
+  <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+    <label htmlFor={id} style={{ fontSize: "0.68rem", color: "#3D5166", letterSpacing: "0.1em" }}>
+      <span style={{ color: "#00D4FF" }}>$</span> {label}
+    </label>
+    {multiline ? (
+      <textarea
+        id={id} className="mc-textarea" rows={4}
+        placeholder={`Enter ${label.toLowerCase()}...`}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ) : (
+      <input
+        id={id} type={type} className="mc-input"
+        placeholder={`Enter ${label.toLowerCase()}...`}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    )}
+    {error && <span style={{ fontSize: "0.62rem", color: "#FF4444" }}>⚠ {error}</span>}
+  </div>
+);
+
 /* ─── Contact page ──────────────────────────────────────────────── */
 const Contactpage = () => {
   const isMobile = useIsMobile();
@@ -122,31 +149,13 @@ const Contactpage = () => {
     }, 1600);
   };
 
-  const Field = ({ id, label, value, type = "text", multiline }) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
-      <label htmlFor={id} style={{ fontSize: "0.68rem", color: "#3D5166", letterSpacing: "0.1em" }}>
-        <span style={{ color: "#00D4FF" }}>$</span> {label}
-      </label>
-      {multiline ? (
-        <textarea
-          id={id} className="mc-textarea" rows={4}
-          placeholder={`Enter ${label.toLowerCase()}...`}
-          value={value}
-          onChange={(e) => setForm({ ...form, [id]: e.target.value })}
-          disabled={stage !== "idle"}
-        />
-      ) : (
-        <input
-          id={id} type={type} className="mc-input"
-          placeholder={`Enter ${label.toLowerCase()}...`}
-          value={value}
-          onChange={(e) => setForm({ ...form, [id]: e.target.value })}
-          disabled={stage !== "idle"}
-        />
-      )}
-      {errors[id] && <span style={{ fontSize: "0.62rem", color: "#FF4444" }}>⚠ {errors[id]}</span>}
-    </div>
-  );
+  const fieldProps = (id) => ({
+    id,
+    value: form[id],
+    error: errors[id],
+    disabled: stage !== "idle",
+    onChange: (e) => setForm((f) => ({ ...f, [id]: e.target.value })),
+  });
 
   return (
     <PageHeader heading="Open a Comm Channel" headingId="06">
@@ -194,9 +203,9 @@ const Contactpage = () => {
                 <div style={{ fontSize: "0.7rem", color: "#3D5166" }}>
                   # ESTABLISH_COMM_CHANNEL — fill all fields to transmit
                 </div>
-                <Field id="name"    label="OPERATOR_NAME"  value={form.name} />
-                <Field id="email"   label="COMM_ADDRESS"   value={form.email} type="email" />
-                <Field id="message" label="SIGNAL_PAYLOAD" value={form.message} multiline />
+                <Field {...fieldProps("name")}    label="OPERATOR_NAME" />
+                <Field {...fieldProps("email")}   label="COMM_ADDRESS" type="email" />
+                <Field {...fieldProps("message")} label="SIGNAL_PAYLOAD" multiline />
                 <div style={{ display: "inline-flex" }}>
                   <button
                     type="submit"
