@@ -135,18 +135,38 @@ const Contactpage = () => {
     return e;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
     setStage("launching");
-    setTimeout(() => {
+
+    // keep the launch animation on screen for at least 1.6s
+    const minDelay = new Promise((r) => setTimeout(r, 1600));
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: import.meta.env.VITE_WEB3FORMS_KEY,
+          subject:    `Portfolio message from ${form.name}`,
+          from_name:  "Portfolio Comm Channel",
+          name:       form.name,
+          email:      form.email,
+          replyto:    form.email,
+          message:    form.message,
+        }),
+      });
+      const data = await res.json();
+      await minDelay;
+      if (!data.success) throw new Error(data.message || "Send failed");
       setStage("sent");
-      const subject = encodeURIComponent(`Message from ${form.name}`);
-      const body    = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
-      window.open(`mailto:haritdheer@gmail.com?subject=${subject}&body=${body}`, "_blank");
-    }, 1600);
+    } catch (err) {
+      await minDelay;
+      setErrors({ submit: "TRANSMISSION FAILED — retry, or email haritdheer@gmail.com directly" });
+      setStage("idle");
+    }
   };
 
   const fieldProps = (id) => ({
@@ -223,6 +243,7 @@ const Contactpage = () => {
                     )}
                   </button>
                 </div>
+                {errors.submit && <span style={{ fontSize: "0.62rem", color: "#FF4444" }}>⚠ {errors.submit}</span>}
               </form>
             )}
           </div>
