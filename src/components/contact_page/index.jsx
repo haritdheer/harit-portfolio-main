@@ -91,6 +91,9 @@ const VisitorPanel = () => {
   );
 };
 
+// Web3Forms access keys are public by design (only deliver to the registered inbox)
+const WEB3FORMS_KEY = "19a5bb4a-2671-45f2-b8c4-fe879d138653";
+
 /* Defined at module level so inputs keep focus across re-renders */
 const Field = ({ id, label, value, onChange, disabled, error, type = "text", multiline }) => (
   <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
@@ -149,7 +152,7 @@ const Contactpage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: import.meta.env.VITE_WEB3FORMS_KEY,
+          access_key: WEB3FORMS_KEY,
           subject:    `Portfolio message from ${form.name}`,
           from_name:  "Portfolio Comm Channel",
           name:       form.name,
